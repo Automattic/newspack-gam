@@ -101,7 +101,7 @@ final class GAM_Scripts {
 
 			$prepared_unit_data[ $container_id ] = [
 				'unique_id'        => $unique_id,
-				'name'             => esc_attr( $ad_unit['name'] ?? '' ),
+				'name'             => esc_attr( $ad_unit['name'] ),
 				'code'             => esc_attr( $ad_unit['code'] ),
 				'path'             => $ad_unit['path'] ?? '',
 				'sizes'            => $sizes,

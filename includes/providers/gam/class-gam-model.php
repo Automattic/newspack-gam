@@ -772,7 +772,7 @@ final class GAM_Model {
 		$network_code = self::get_active_network_code();
 		$unique_id    = $unique_id ?? uniqid();
 
-		if ( empty( $ad_unit['sizes'] ) || ! is_array( $ad_unit['sizes'] ) ) {
+		if ( ! is_array( $ad_unit['sizes'] ) ) {
 			$ad_unit['sizes'] = [];
 		}
 
@@ -859,7 +859,7 @@ final class GAM_Model {
 	public static function get_ad_unit_size_map( $ad_unit, $sizes = [] ) {
 
 		if ( empty( $sizes ) ) {
-			$sizes = $ad_unit['sizes'] ?? [];
+			$sizes = $ad_unit['sizes'];
 		}
 
 		/**
