@@ -52,6 +52,6 @@
 	"dependencies": {
 		"@10up/component-tabs": "^2.0.1",
 		"newspack-components": "^3.0.0",
-		"prebid.js": "^8.51.0"
+		"prebid.js": "^9.13.0"
 	}
 }
