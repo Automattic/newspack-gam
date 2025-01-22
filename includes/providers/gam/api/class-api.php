@@ -17,6 +17,9 @@ use Google\AdsApi\AdManager\AdManagerSession;
 use Google\AdsApi\AdManager\v202405\ServiceFactory;
 use Google\AdsApi\AdManager\v202405\Network;
 use Google\AdsApi\AdManager\v202405\User;
+use Google\AdsApi\AdManager\v202405\UserTeamAssociationService;
+use Google\AdsApi\AdManager\v202405\UserTeamAssociation;
+use Google\AdsApi\AdManager\v202405\Statement;
 use Google\AdsApi\AdManager\v202405\ApiException;
 
 require_once NEWSPACK_ADS_COMPOSER_ABSPATH . 'autoload.php';
@@ -247,6 +250,35 @@ class Api {
 	 */
 	public function get_current_user() {
 		return ( new ServiceFactory() )->createUserService( $this->session )->getCurrentUser();
+	}
+
+	/**
+	 * Whether to fetch the current user team associations and use them as
+	 * appliedTeamIds when managing their inventory.
+	 *
+	 * @return bool
+	 */
+	public function use_applied_team_ids() {
+		/**
+		 * Filters whether to fetch the current user team associations and use them
+		 * as appliedTeamIds when managing their inventory.
+		 *
+		 * @param bool $use_applied_team_ids Whether to use appliedTeamIds.
+		 */
+		return apply_filters( 'newspack_ads_gam_use_applied_team_ids', false );
+	}
+
+	/**
+	 * Get current user' team associations.
+	 *
+	 * @return UserTeamAssociation[] Array of user team associations.
+	 */
+	public function get_current_user_team_associations() {
+		$service   = ( new ServiceFactory() )->createUserTeamAssociationService( $this->session );
+		$user      = $this->get_current_user();
+		$statement = new Statement( "WHERE userId = {$user->getId()}" );
+		$user_team_association_page = $service->getUserTeamAssociationsByStatement( $statement );
+		return $user_team_association_page->getResults() ?? [];
 	}
 
 	/**
