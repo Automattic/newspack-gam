@@ -262,6 +262,20 @@ final class Ad_Units extends Api_Object {
 			}
 		}
 
+		if ( $this->api->use_applied_team_ids() ) {
+			$user_team_associations = $this->api->get_current_user_team_associations();
+			foreach ( $user_team_associations as $user_team_association ) {
+				$ad_unit->setAppliedTeamIds(
+					array_map(
+						function( $user_team_association ) {
+							return $user_team_association->getTeamId();
+						},
+						$user_team_associations
+					)
+				);
+			}
+		}
+
 		return $ad_unit;
 	}
 
